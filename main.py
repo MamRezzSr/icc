@@ -5,7 +5,7 @@ from PySide2 import QtCore, QtGui, QtWidgets
 from PySide2.QtCore import (QCoreApplication, QPropertyAnimation, QDate, QDateTime, QMetaObject, QObject, QPoint, QRect, QSize, QTime, QUrl, Qt, QEvent, QRegExp)
 from PySide2.QtGui import (QBrush, QColor, QConicalGradient, QCursor, QFont, QFontDatabase, QIcon, QKeySequence, QLinearGradient, QPalette, QPainter, QPixmap, QRadialGradient, QRegExpValidator)
 from PySide2.QtWidgets import *
-#back-end
+# back-end
 from back_end import *
 
 # GUI FILE
@@ -36,7 +36,7 @@ class MainWindow(QMainWindow):
         # PAGE 3
         self.ui.btn_page_3.clicked.connect(lambda: self.ui.stackedWidget.setCurrentWidget(self.ui.page_3))
 
-        #convert button
+        # convert button
         self.ui.btn_convert.clicked.connect(lambda: self.gettinglog())
         
         # ONLY NUMBER
@@ -75,7 +75,7 @@ class MainWindow(QMainWindow):
         tarikh=('{0}/{1}/{2}'.format(qDate.month(), qDate.day(), qDate.year()))
 
     def gettinglog(self):
-        # Logger
+        # logger
         logger=logging.getLogger(__name__)
         file_h = logging.FileHandler('log.log')
         file_f = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
@@ -86,17 +86,21 @@ class MainWindow(QMainWindow):
         arz_voroodi=self.ui.comboBox.currentText()
         arz_khoroogi=self.ui.comboBox_2.currentText()
         meghadr_arz=self.ui.lineEdit.text()
-        logger.info('arz voroodi: %s arz khoroogi: %s meghadr arz voroodi: %s traikh: %s' %(arz_voroodi,arz_khoroogi,meghadr_arz,tarikh))
+        logger.info('[+] Requesting for input_currency: %s / output_currency: %s / amount: %s / date: %s' %(arz_voroodi, arz_khoroogi, meghadr_arz, tarikh))
+        
+        # back-end
+        try:
+            output = changeTo(str(arz_voroodi), str(arz_khoroogi), str(meghadr_arz), str(tarikh))
+            out = roundUp(output)
+            self.ui.label.setText(out)
+        except:
+            logger.info("[-] Something went wrong... please try again.")
+        # end of back-end
+
         logger.removeHandler(file_h)
         textlog=open('log.log').read()
         self.ui.label_2.setText(textlog)
-        # End of Logging
-        
-        # back-end
-        output = changeTo(str(arz_voroodi), str(arz_khoroogi), str(meghadr_arz), str(tarikh))
-        out = roundUp(output)
-        self.ui.label.setText(out)
-        # end of back-end
+        #end of logger
         
 
 if __name__ == "__main__":

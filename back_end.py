@@ -44,7 +44,7 @@ def changeTo(inc ,outc, inv, date):
             data = response.json()
             inc_to_rial = float(data["price"])
         else:
-            print(f'[-] Error on getting inc: {response.status_code}')
+            logger.info(f'[-] Error on getting inc: {response.status_code}... please check your internet.')
 
     if outc != "Iranian Rial":
         response = requests.get(f'https://www.tgju.org/?act=archive-tool&noview&client=ajax&v=200&name={currencies[outc]}&year={year}&month={month}&day={day}')
@@ -52,7 +52,7 @@ def changeTo(inc ,outc, inv, date):
             data = response.json()
             outc_to_rial = float(data["price"])
         else:
-            print(f'[-] Error on getting outc: {response.status_code}')
+            logger.info(f'[-] Error on getting outc: {response.status_code}... please check your internet.')
     
     #print(f"inc to rial: {inc_to_rial} / outc to rial: {outc_to_rial}")
     #print((inc_to_rial/outc_to_rial)*float(inv))
