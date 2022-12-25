@@ -40,7 +40,7 @@ class MainWindow(QMainWindow):
         self.ui.btn_convert.clicked.connect(lambda: self.gettinglog())
         
         # ONLY NUMBER
-        validator = QRegExpValidator(QRegExp(r'^[\d,]*\.?[\d,]*$'))
+        validator = QRegExpValidator(QRegExp(r'^\d+(\.\d{1,2})?$'))
         self.ui.lineEdit.setValidator(validator)
 
         # CALENDAR
